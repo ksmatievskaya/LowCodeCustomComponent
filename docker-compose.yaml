@@ -1,0 +1,68 @@
+version: '3'
+
+name: guru-data-mesh
+
+services:
+  graphql-mesh:
+    image: hasura/graphql-engine:latest
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "datacluster"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://superdba:postgrespassword@datacluster:5432/graphqlmetadata
+      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log 
+  workflow:
+    image: n8nio/n8n:latest
+    ports:
+      - 5678:5678
+    environment:
+      N8N_DIAGNOSTICS_ENABLED: false 
+      N8N_VERSION_NOTIFICATIONS_ENABLED: false
+    volumes:
+      - "workflow-data:/home/node/.n8n"
+  nocodedb:
+    image: nocodb/nocodb:latest
+    environment: 
+      NC_DB: "pg://root_db:5432?u=postgres&p=password&d=root_db"
+    ports: 
+      - "18080:8080"
+    restart: always
+    volumes: 
+      - "nc_data:/usr/app/data"
+  datacluster:
+    ## change to rebulder pg
+    image: postgres:15
+    healthcheck: 
+      interval: 10s
+      retries: 10
+      test: "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""
+      timeout: 2s
+    restart: always
+    environment:
+      TZ: "Europe/Moscow"
+      PGTZ: "Europe/Moscow"
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_USER: superdba
+      POSTGRES_DB: graphqlmetadata
+  dba-admin:
+    image: dpage/pgadmin4
+    container_name: dbaadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
+      PGADMIN_DEFAULT_PASSWORD: a1128f69-e6f7-4e93-a2df-3d4db6030abc
+    ports:
+      - "8889:80"
+    volumes:
+      - "dbclustedata:/var/lib/postgresql/data"
+
+volumes:
+  wokflowdata:
+  dbcusterdata:  
+  nc_data:
+networks:
