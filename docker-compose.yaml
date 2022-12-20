@@ -29,7 +29,7 @@ services:
   nocodedb:
     image: nocodb/nocodb:latest
     environment: 
-      NC_DB: "pg://root_db:5432?u=postgres&p=password&d=root_db"
+      NC_DB: "pg://datacluster:5432?u=superdba&p=postgrespassword&d=nocodb"
     ports: 
       - "18080:8080"
     restart: always
@@ -49,7 +49,8 @@ services:
       PGTZ: "Europe/Moscow"
       POSTGRES_PASSWORD: postgrespassword
       POSTGRES_USER: superdba
-      POSTGRES_DB: graphqlmetadata
+      POSTGRES_DB: postgres
+      POSTGRES_MULTIPLE_DATABASES: "graphqlmetadata,superdba: nocodb,superdba: okrdb:superdba"
     volumes:
       - dbcluster-data:/var/lib/postgresql/data
 

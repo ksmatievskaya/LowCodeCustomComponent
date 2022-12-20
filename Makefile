@@ -4,7 +4,9 @@ configure:
 
 build:
 
+dumpdata:
+
 publish:
 
 deploy:
-	docker compose up -deploy
+	docker compose up -d
