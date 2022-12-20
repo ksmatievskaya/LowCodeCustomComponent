@@ -25,7 +25,7 @@ services:
       N8N_DIAGNOSTICS_ENABLED: false 
       N8N_VERSION_NOTIFICATIONS_ENABLED: false
     volumes:
-      - "workflow-data:/home/node/.n8n"
+      - wokflow-data:/home/node/.n8n
   nocodedb:
     image: nocodb/nocodb:latest
     environment: 
@@ -34,7 +34,7 @@ services:
       - "18080:8080"
     restart: always
     volumes: 
-      - "nc_data:/usr/app/data"
+      - ncdb-data:/usr/app/data
   datacluster:
     ## change to rebulder pg
     image: postgres:15
@@ -50,6 +50,9 @@ services:
       POSTGRES_PASSWORD: postgrespassword
       POSTGRES_USER: superdba
       POSTGRES_DB: graphqlmetadata
+    volumes:
+      - dbcluster-data:/var/lib/postgresql/data
+
   dba-admin:
     image: dpage/pgadmin4
     container_name: dbaadmin
@@ -58,11 +61,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: a1128f69-e6f7-4e93-a2df-3d4db6030abc
     ports:
       - "8889:80"
-    volumes:
-      - "dbclustedata:/var/lib/postgresql/data"
 
 volumes:
-  wokflowdata:
-  dbcusterdata:  
-  nc_data:
-networks:
+  wokflow-data:
+  dbcluster-data:  
+  ncdb-data:
