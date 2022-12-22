@@ -9,7 +9,7 @@ dumpdata:
 publish:
 
 deploy:
-	docker compose up --env-file .env.dev -d
+	docker compose --env-file .env.dev up -d
 
 production:
 	docker compose up --env-file .env.prod -d
