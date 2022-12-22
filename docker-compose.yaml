@@ -11,12 +11,12 @@ services:
     - "datacluster"
     restart: always
     environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://superdba:postgrespassword@datacluster:5432/graphqlmetadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: ${HASURA_GRAPHQL_METADATA_DATABASE_URL}
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
       ## enable debugging mode. It is recommended to disable this in production
-      HASURA_GRAPHQL_DEV_MODE: "true"
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log 
+      HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE}
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
   workflow:
     image: n8nio/n8n:latest
     ports:
@@ -29,7 +29,7 @@ services:
   nocodedb:
     image: nocodb/nocodb:latest
     environment: 
-      NC_DB: "pg://datacluster:5432?u=superdba&p=postgrespassword&d=nocodb"
+      NC_DB: ${NC_DB}
     ports: 
       - "18080:8080"
     restart: always
@@ -47,7 +47,7 @@ services:
     environment:
       TZ: "Europe/Moscow"
       PGTZ: "Europe/Moscow"
-      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: superdba
       POSTGRES_DB: postgres
       POSTGRES_MULTIPLE_DATABASES: "graphqlmetadata,superdba: nocodb,superdba: okrdb:superdba"
@@ -59,7 +59,7 @@ services:
     container_name: dbaadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
-      PGADMIN_DEFAULT_PASSWORD: a1128f69-e6f7-4e93-a2df-3d4db6030abc
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8889:80"
 
