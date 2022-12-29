@@ -17,8 +17,8 @@ services:
     command: npm run start:prod
   graphql-mesh:
     image: hasura/graphql-engine:latest
-    ports:
-    - "8080:8080"
+    #ports:
+    #- "8080:8080"
     depends_on:
     - "datacluster"
     restart: always
@@ -29,10 +29,11 @@ services:
       ## enable debugging mode. It is recommended to disable this in production
       HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE}
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
   workflow:
     image: n8nio/n8n:latest
-    ports:
-      - 5678:5678
+    #ports:
+    #  - 5678:5678
     environment:
       N8N_DIAGNOSTICS_ENABLED: false 
       N8N_VERSION_NOTIFICATIONS_ENABLED: false
@@ -42,8 +43,8 @@ services:
     image: nocodb/nocodb:latest
     environment: 
       NC_DB: ${NC_DB}
-    ports: 
-      - "18080:8080"
+    #ports: 
+    #  - "18080:8080"
     restart: always
     volumes: 
       - ncdb-data:/usr/app/data
@@ -72,8 +73,8 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - "8889:80"
+    #ports:
+    #  - "8889:80"
   proxy:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
@@ -84,7 +85,7 @@ services:
     ports:
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
-      - '81:81' # Admin Web Port
+    #  - '81:81' # Admin Web Port
     volumes:
       - proxy-data:/data
       - proxy-letsencrypt-data:/etc/letsencrypt
