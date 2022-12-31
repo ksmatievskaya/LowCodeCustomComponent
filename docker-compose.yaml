@@ -3,14 +3,20 @@ version: '3'
 name: guru-data-mesh
 
 services:
+  biservice:
+    image: metabase/metabase:latest
+    restart: always
+    ports:
+      - 13000:3000  
+    env_file: .env.dev.bi
   appslowcode:
     tty: true
     stdin_open: true
     image: tooljet/tooljet-ce:latest
     restart: always
-    env_file: .env.prod.lowcode
-#    ports:
-#      - 80:80
+    env_file: .env.dev.lowcode
+    ports:
+      - 10080:80
     environment:
       SERVE_CLIENT: "true"
       PORT: "80"
@@ -71,7 +77,7 @@ services:
     container_name: dbaadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_PASSWORD: superdba
     ports:
       - "8889:80"
   proxy:
@@ -86,7 +92,7 @@ services:
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
     volumes:
-      - proxy-data:/data
+      - ./proxy-dev:/data
       - proxy-letsencrypt-data:/etc/letsencrypt
 
 volumes:
