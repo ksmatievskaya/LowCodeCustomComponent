@@ -10,7 +10,7 @@ build:
 	docker compose build
 
 dumpdata:
-	./10-dumpdata.sh
+	bash 10-dumpdata.sh
 
 publish:
 	docker compose --env-file .env.dev up proxy -d

@@ -95,6 +95,20 @@ services:
     volumes:
       - proxy-data:/data
       - proxy-letsencrypt-data:/etc/letsencrypt
+  smtpserver:
+    image: mailhog/mailhog
+    environment:
+      SMTP_HOST: smtpserver
+      SMTP_PORT: 1025
+      SMTP_PASS: ${AUTH_SMTP_PASS}
+      SMTP_USER: ${AUTH_SMTP_USER}
+      SMTP_SECURE: '${AUTH_SMTP_SECURE}'
+      SMTP_SENDER: ${AUTH_SMTP_SENDER}
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    volumes:
+      - ./docker/data/mailhog:/maildir
 
 volumes:
   proxy-data:
