@@ -3,5 +3,6 @@
         "compose",
         "docs",
         "init"
-    ]
+    ],
+    "pasteImage.basePath": "${currentFileDir}"
 }

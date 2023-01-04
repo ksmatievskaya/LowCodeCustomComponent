@@ -4,14 +4,16 @@ prepare:
 configure:
 	docker compose --env-file .env.dev up datacluster -d
 	bash 02-loaddata.sh
+	docker compose --env-file .env.dev up dba-admin -d
 
 build:
 	docker compose build
 
 dumpdata:
 	./10-dumpdata.sh
-		
+
 publish:
+	docker compose --env-file .env.dev up proxy -d
 
 deploy:
 	export UID=$(id -u) && export GID=$(id -g) && docker compose --env-file .env.dev up -d

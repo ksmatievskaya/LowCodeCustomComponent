@@ -72,14 +72,13 @@ services:
       POSTGRES_MULTIPLE_DATABASES: "graphqlmetadata,superdba: nocodb,superdba: okrdb:superdba"
     volumes:
       - dbcluster-data:/var/lib/postgresql/data
-
   dba-admin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
       PGADMIN_DEFAULT_PASSWORD: superdba
-#    ports:
-#      - "8889:80"
+    ports:
+      - "8889:80"
     volumes:
       - dba-data:/var/lib/pgadmin
   proxy:
