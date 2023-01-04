@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "compose",
-        "docs"
+        "docs",
+        "init"
     ]
 }

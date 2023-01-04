@@ -9,6 +9,8 @@ services:
     ports:
       - 13000:3000  
     env_file: .env.dev.bi
+    depends_on:
+      - datacluster
   appslowcode:
     tty: true
     stdin_open: true
@@ -27,7 +29,6 @@ services:
     - "8080:8080"
     depends_on:
     - "datacluster"
-    restart: always
     environment:
       HASURA_GRAPHQL_METADATA_DATABASE_URL: ${HASURA_GRAPHQL_METADATA_DATABASE_URL}
       ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
@@ -74,12 +75,13 @@ services:
 
   dba-admin:
     image: dpage/pgadmin4
-    container_name: dbaadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
       PGADMIN_DEFAULT_PASSWORD: superdba
-    ports:
-      - "8889:80"
+#    ports:
+#      - "8889:80"
+    volumes:
+      - dba-data:/var/lib/pgadmin
   proxy:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
@@ -92,12 +94,13 @@ services:
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
     volumes:
-      - ./proxy-dev:/data
+      - proxy-data:/data
       - proxy-letsencrypt-data:/etc/letsencrypt
 
 volumes:
   proxy-data:
   proxy-letsencrypt-data:
+  dba-data:
   wokflow-data:
   dbcluster-data:  
   ncdb-data:

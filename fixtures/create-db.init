@@ -1,0 +1,4 @@
+SELECT 'CREATE DATABASE graphqlmetadata' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'graphqlmetadata')\gexec
+SELECT 'CREATE DATABASE okrdb' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'okrdb')\gexec
+SELECT 'CREATE DATABASE streams' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'streams')\gexec
+SELECT 'CREATE DATABASE strategy' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'strategy')\gexec

@@ -1,0 +1,98 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.1 (Debian 15.1-1.pgdg110+1)
+-- Dumped by pg_dump version 15.1 (Debian 15.1-1.pgdg110+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: nc_evolutions; Type: TABLE; Schema: public; Owner: superdba
+--
+
+CREATE TABLE public.nc_evolutions (
+    id integer NOT NULL,
+    title character varying(255) NOT NULL,
+    "titleDown" character varying(255),
+    description character varying(255),
+    batch integer,
+    checksum character varying(255),
+    status integer,
+    created timestamp with time zone,
+    created_at timestamp with time zone,
+    updated_at timestamp with time zone
+);
+
+
+ALTER TABLE public.nc_evolutions OWNER TO superdba;
+
+--
+-- Name: nc_evolutions_id_seq; Type: SEQUENCE; Schema: public; Owner: superdba
+--
+
+CREATE SEQUENCE public.nc_evolutions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.nc_evolutions_id_seq OWNER TO superdba;
+
+--
+-- Name: nc_evolutions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: superdba
+--
+
+ALTER SEQUENCE public.nc_evolutions_id_seq OWNED BY public.nc_evolutions.id;
+
+
+--
+-- Name: nc_evolutions id; Type: DEFAULT; Schema: public; Owner: superdba
+--
+
+ALTER TABLE ONLY public.nc_evolutions ALTER COLUMN id SET DEFAULT nextval('public.nc_evolutions_id_seq'::regclass);
+
+
+--
+-- Data for Name: nc_evolutions; Type: TABLE DATA; Schema: public; Owner: superdba
+--
+
+COPY public.nc_evolutions (id, title, "titleDown", description, batch, checksum, status, created, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Name: nc_evolutions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: superdba
+--
+
+SELECT pg_catalog.setval('public.nc_evolutions_id_seq', 1, false);
+
+
+--
+-- Name: nc_evolutions nc_evolutions_pkey; Type: CONSTRAINT; Schema: public; Owner: superdba
+--
+
+ALTER TABLE ONLY public.nc_evolutions
+    ADD CONSTRAINT nc_evolutions_pkey PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

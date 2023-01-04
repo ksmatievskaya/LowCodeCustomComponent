@@ -1,0 +1,29 @@
+{
+    "version": 3,
+    "sources": [
+        {
+            "name": "Strategy",
+            "kind": "postgres",
+            "tables": [],
+            "configuration": {
+                "connection_info": {
+                    "database_url": "postgres://superdba:postgrespassword@datacluster:5432/strategy",
+                    "isolation_level": "read-committed",
+                    "use_prepared_statements": false
+                }
+            }
+        },
+        {
+            "name": "Streams",
+            "kind": "postgres",
+            "tables": [],
+            "configuration": {
+                "connection_info": {
+                    "database_url": "postgres://superdba:postgrespassword@datacluster:5432/streams",
+                    "isolation_level": "read-committed",
+                    "use_prepared_statements": false
+                }
+            }
+        }
+    ]
+}
