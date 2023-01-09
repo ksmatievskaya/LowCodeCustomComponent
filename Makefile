@@ -9,9 +9,6 @@ configure: prepare
 build:
 	docker compose build
 
-dumpdata:
-	bash 10-dumpdata.sh
-
 publish: configure
 	docker compose --env-file .env.settings up proxy -d
 
@@ -27,3 +24,8 @@ clean:
 dockerfull-prune:
 	docker system prune -a --volumes 
 
+dumpdata:
+	bash 10-dumpdata.sh
+
+topology:
+	bash 99-generate-topology.sh

@@ -8,7 +8,8 @@ services:
     restart: always
     env_file: ${BIENVFILE}
     depends_on:
-      - datacluster
+    - "datacluster"
+    - "proxy"
 
   appslowcode:
     tty: true
@@ -17,11 +18,16 @@ services:
     restart: always
     env_file: ${LOWCODEENVFILE}
     command: npm run start:prod
+    depends_on:
+      - "datacluster"
+      - "proxy"
+      - "smtpserver"
 
   graphql-mesh:
     image: hasura/graphql-engine:latest
     depends_on:
     - "datacluster"
+    - "proxy"
     env_file: ${GRAPHQLMESHENVFILE}
 
   workflow:
@@ -29,6 +35,10 @@ services:
     env_file: ${WORKFLOWENVFILE}
     volumes:
       - wokflow-data:/home/node/.n8n
+    depends_on:
+    - "datacluster"
+    - "proxy"
+    - "smtpserver"
 
   nocodedb:
     image: nocodb/nocodb:latest
@@ -36,6 +46,10 @@ services:
     restart: always
     volumes: 
       - ncdb-data:/usr/app/data
+    depends_on:
+    - "datacluster"
+    - "proxy"
+    - "smtpserver"
 
   datacluster:
     image: postgres:15
@@ -54,6 +68,9 @@ services:
     env_file: ${PGADMINENVFILE}    
     volumes:
       - dba-data:/var/lib/pgadmin
+    depends_on:
+    - "datacluster"
+    - "proxy"
 
   proxy:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -75,7 +92,9 @@ services:
     env_file: ${SMTPENVFILE}    
     volumes:
       - mail-data:/maildir
-
+    depends_on:
+      - proxy
+      
 volumes:
   proxy-data:
   mail-data:

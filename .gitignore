@@ -4,3 +4,4 @@ fixtures/db/realworld
 settings/*.dev.*
 settings/*.prod.*
 .env.settings
+.cache
