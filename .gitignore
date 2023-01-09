@@ -1,3 +1,6 @@
 .env.prod
 100-dumprealworld.sh
 fixtures/db/realworld
+settings/*.dev.*
+settings/*.prod.*
+.env.settings

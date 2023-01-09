@@ -1,6 +1,0 @@
-MB_DB_TYPE=postgres
-MB_DB_DBNAME=okrdb
-MB_DB_PORT=5432
-MB_DB_USER=superdba
-MB_DB_PASS=postgrespassword
-MB_DB_HOST=datacluster

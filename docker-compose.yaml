@@ -6,81 +6,55 @@ services:
   biservice:
     image: metabase/metabase:latest
     restart: always
-    ports:
-      - 13000:3000  
-    env_file: .env.dev.bi
+    env_file: ${BIENVFILE}
     depends_on:
       - datacluster
+
   appslowcode:
     tty: true
     stdin_open: true
     image: tooljet/tooljet-ce:latest
     restart: always
-    env_file: .env.dev.lowcode
-    ports:
-      - 10080:80
-    environment:
-      SERVE_CLIENT: "true"
-      PORT: "80"
+    env_file: ${LOWCODEENVFILE}
     command: npm run start:prod
+
   graphql-mesh:
     image: hasura/graphql-engine:latest
-    ports:
-    - "8080:8080"
     depends_on:
     - "datacluster"
-    environment:
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: ${HASURA_GRAPHQL_METADATA_DATABASE_URL}
-      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
-      ## enable debugging mode. It is recommended to disable this in production
-      HASURA_GRAPHQL_DEV_MODE: ${HASURA_GRAPHQL_DEV_MODE}
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+    env_file: ${GRAPHQLMESHENVFILE}
+
   workflow:
     image: n8nio/n8n:latest
-    ports:
-      - 5678:5678
-    environment:
-      N8N_DIAGNOSTICS_ENABLED: false 
-      N8N_VERSION_NOTIFICATIONS_ENABLED: false
+    env_file: ${WORKFLOWENVFILE}
     volumes:
       - wokflow-data:/home/node/.n8n
+
   nocodedb:
     image: nocodb/nocodb:latest
-    environment: 
-      NC_DB: ${NC_DB}
-    ports: 
-      - "18080:8080"
+    env_file: ${TABLESENVFILE}
     restart: always
     volumes: 
       - ncdb-data:/usr/app/data
+
   datacluster:
-    ## change to rebulder pg
     image: postgres:15
+    env_file: ${PGENVFILE}
     healthcheck: 
       interval: 10s
       retries: 10
       test: "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""
       timeout: 2s
     restart: always
-    environment:
-      TZ: "Europe/Moscow"
-      PGTZ: "Europe/Moscow"
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: superdba
-      POSTGRES_DB: postgres
-      POSTGRES_MULTIPLE_DATABASES: "graphqlmetadata,superdba: nocodb,superdba: okrdb:superdba"
     volumes:
       - dbcluster-data:/var/lib/postgresql/data
+
   dba-admin:
     image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - "8889:80"
+    env_file: ${PGADMINENVFILE}    
     volumes:
       - dba-data:/var/lib/pgadmin
+
   proxy:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
@@ -91,22 +65,14 @@ services:
     ports:
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
-      - '81:81' # Admin Web Port
+      - '81:81' # Admin Port - TODO Disable This
     volumes:
       - proxy-data:/data
       - proxy-letsencrypt-data:/etc/letsencrypt
+
   smtpserver:
     image: mailhog/mailhog
-    environment:
-      SMTP_HOST: smtpserver
-      SMTP_PORT: 1025
-      SMTP_PASS: ${AUTH_SMTP_PASS}
-      SMTP_USER: ${AUTH_SMTP_USER}
-      SMTP_SECURE: '${AUTH_SMTP_SECURE}'
-      SMTP_SENDER: ${AUTH_SMTP_SENDER}
-    ports:
-      - 1025:1025 # smtp server
-      - 8025:8025 # web ui
+    env_file: ${SMTPENVFILE}    
     volumes:
       - mail-data:/maildir
 
