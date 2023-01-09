@@ -2,7 +2,8 @@
     "conventionalCommits.scopes": [
         "compose",
         "docs",
-        "init"
+        "init",
+        "env"
     ],
     "pasteImage.basePath": "${currentFileDir}"
 }

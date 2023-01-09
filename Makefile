@@ -12,10 +12,10 @@ build:
 dumpdata:
 	bash 10-dumpdata.sh
 
-publish:
+publish: configure
 	docker compose --env-file .env.dev up proxy -d
 
-deploy:
+deploy: publish
 	export UID=$(id -u) && export GID=$(id -g) && docker compose --env-file .env.dev up -d
 
 production:
