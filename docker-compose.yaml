@@ -1,6 +1,6 @@
 version: '3'
 
-name: guru-data-mesh
+name: lowcode-data-mesh
 
 services:
   biservice:
