@@ -108,10 +108,11 @@ services:
       - 1025:1025 # smtp server
       - 8025:8025 # web ui
     volumes:
-      - ./docker/data/mailhog:/maildir
+      - mail-data:/maildir
 
 volumes:
   proxy-data:
+  mail-data:
   proxy-letsencrypt-data:
   dba-data:
   wokflow-data:
