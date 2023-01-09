@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source .env.dev
+source .env.settings
+source ${PGENVFILE}
 
 docker run -it --rm -e PGPASSWORD=${POSTGRES_PASSWORD} --name guru-public-mesh-pgdump \
     --network="lowcode-data-mesh_default" \
