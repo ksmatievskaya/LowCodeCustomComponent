@@ -75,8 +75,8 @@ services:
   dba-admin:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: superdba@iczin.guru
-      PGADMIN_DEFAULT_PASSWORD: superdba
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "8889:80"
     volumes:

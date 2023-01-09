@@ -1,7 +1,7 @@
 prepare:
 	docker compose --env-file .env.dev pull
 
-configure:
+configure: prepare
 	docker compose --env-file .env.dev up datacluster -d
 	bash 02-loaddata.sh
 	docker compose --env-file .env.dev up dba-admin -d
