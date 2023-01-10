@@ -13,6 +13,7 @@ publish: configure
 	docker compose --env-file .env.settings up proxy -d
 
 deploy: publish
+	bash scripts/03-create-proxy-domains.sh
 	export UID=$(id -u) && export GID=$(id -g) && docker compose --env-file .env.settings up -d
 
 production:
