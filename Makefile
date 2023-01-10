@@ -1,4 +1,11 @@
 prepare:
+	asdf plugin-add nodejs || true
+	asdf plugin-add python || true
+	asdf install nodejs 18.12.1 || true
+	asdf install python 3.10.9 || true
+	asdf local nodejs 18.12.1
+	asdf local python 3.10.9
+	pip install -r requirements.txt
 	docker compose --env-file .env.settings pull
 
 configure: prepare

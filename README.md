@@ -13,32 +13,25 @@
 
 ## Использование
 
-* установить Linux или WSL2 c установленной утилитой make и подсистемой Docker
-* укажите настройки `cp .env.example.settings .env.settings`
+* установить Linux или WSL2 c установленной утилитой make и подсистемой Docker и поставьте `asdf`
+    * рекомендовано использование ASDF с ZSh+OMySH https://asdf-vm.com/guide/getting-started.html#_3-install-asdf
 * настройте сервисы под окружение `bash 01-prepare-settings.sh -e dev` или `bash 01-prepare-settings.sh -e prod`
-* заполните настройки в каталоге [settings](./settings/)
+* укажите адреса получившихся файлов настройки `cp .env.example.settings .env.settings`
+* заполните настройки в каталоге [settings](./settings/) (для разработки - оставьте по умолчанию - если хотите)
 * выполните команду `make deploy`
 
 ## Локальная первичная настройка
 
-* системный администратор - http://localhost:81
-    * зайдите под именем `admin@example.com` и паролем `changeme` для изменения пароля
-    * добавьте прокси доменного имени `proxy.localhost` указывающего внутрь docker сети на DNS имя `proxy` и порт `81`
-    * зайдите по адресу http://proxy.localhost/nginx/proxy чтобы проверить как работает прокси-сервер
-    * добавьте прокси доменного имени `dba.localhost` указывающего внутрь docker сети на DNS имя `dba-admin` и порт `80`
-    * добавьте прокси доменного имени `api.localhost` указывающего внутрь docker сети на DNS имя `graphql-mesh` и порт `8080`
-    * добавьте прокси доменного имени `tables.localhost` указывающего внутрь docker сети на DNS имя `nocodedb` и порт `8080`
-    * добавьте прокси доменного имени `workflow.localhost` указывающего внутрь docker сети на DNS имя `workflow` и порт `5678`
-    * добавьте прокси доменного имени `apps.localhost` указывающего внутрь docker сети на DNS имя `appslowcode` и порт `5678`
-    * добавьте прокси доменного имени `bi.localhost` указывающего внутрь docker сети на DNS имя `biservice` и порт `3000`
-    * добавьте прокси доменного имени `mails.localhost` указывающего внутрь docker сети на DNS имя `smtpserver` и порт `8025`
-* зайдите по адресу http://dba.localhost/browser/
-    * добавьте сервер с DNS адресом `datacluster` с пользователем `superdba` и паролем `postgrespassword`
-* зайдите по адресу http://api.localhost/console/data/manage для проверки доступности API
-* зайдите по адресу http://bi.localhost/ - это будет ваша встраиваемая панель метрик
-* зайдите по адресу http://tables.localhost - это будет ваш комплект с данными предметной области
-* зайдите по адресу http://workflow.localhost/workflows - это будет ваше средство управление процессом автоматизации
-* зайдите по адресу http://apps.localhost - это будет ваш конструктор приложение
+* первичный скрипт развертывания автоматически создает доменные имена для сервисов в DNS зоне - для разработческого стенда это `*.localhost`
+   * зайдите по адресу http://proxy.localhost/nginx/proxy чтобы проверить как работает прокси-сервер
+   * зайдите по адресу http://dba.localhost/browser/
+      * добавьте сервер с DNS адресом `datacluster` и суперпользователем которого вы указали в настройках 
+   * зайдите по адресу http://api.localhost/console/data/manage для проверки доступности API
+   * зайдите по адресу http://bi.localhost/ - это будет ваша встраиваемая панель метрик
+   * зайдите по адресу http://tables.localhost - это будет ваш комплект с данными предметной области
+   * зайдите по адресу http://workflow.localhost/workflows - это будет ваше средство управление процессом автоматизации
+   * зайдите по адресу http://apps.localhost - это будет ваш конструктор приложение
+   * зайдите по адресу http://mails.localhost/ - это будет ваш сервер рассылки почты с отладкой HTML отображения
  
 ## Технологический состав
 
