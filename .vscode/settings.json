@@ -3,7 +3,8 @@
         "compose",
         "docs",
         "init",
-        "env"
+        "env",
+        "cicd"
     ],
     "pasteImage.basePath": "${currentFileDir}"
 }
