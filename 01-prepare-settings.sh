@@ -17,3 +17,5 @@ for f in $(find ./settings/examples -name '*.example.*'); do
     echo "${f} copied to ${newfilesettings}";
     cp -n $f ./settings/${newfilesettings}
 done
+
+cp -n .env.example.settings .env.settings
