@@ -14,6 +14,9 @@
 ## Использование
 
 * установить Linux или WSL2 c установленной утилитой make и подсистемой Docker
+* укажите настройки `cp .env.example.settings .env.settings`
+* настройте сервисы под окружение `bash 01-prepare-settings.sh -e dev` или `bash 01-prepare-settings.sh -e prod`
+* заполните настройки в каталоге [settings](./settings/)
 * выполните команду `make deploy`
 
 ## Локальная первичная настройка
