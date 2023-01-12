@@ -8,7 +8,7 @@ prepare:
 	pip install -r requirements.txt
 	docker compose --env-file .env.settings pull
 
-configure: prepare
+configure:
 	docker compose --env-file .env.settings up datacluster -d
 	bash 02-loaddata.sh
 	docker compose --env-file .env.settings up dba-admin -d
