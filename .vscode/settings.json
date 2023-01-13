@@ -7,7 +7,8 @@
         "cicd",
         "process",
         "idea",
-        "backlog"
+        "backlog",
+        "apps"
     ],
     "pasteImage.basePath": "${currentFileDir}"
 }
