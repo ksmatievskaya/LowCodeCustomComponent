@@ -89,7 +89,7 @@ default_token = get_identity_object("admin@example.com", "changeme")
 print("check if default auth exist")
 auth_token = get_user_token(default_token)
 
-if auth_token.status_code == "200" :
+if auth_token.status_code == 200 :
   ## we does not change user
   print("first start - change default identity")
   token = auth_token.json().get('token')
