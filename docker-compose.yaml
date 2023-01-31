@@ -12,6 +12,8 @@ services:
     - "proxy"
 
   appslowcode:
+    ports:
+      - 43000:3000
     tty: true
     stdin_open: true
     image: tooljet/tooljet-ce:latest
@@ -31,6 +33,8 @@ services:
     env_file: ${GRAPHQLMESHENVFILE}
 
   workflow:
+    ports:
+      - 41000:5678
     image: n8nio/n8n:latest
     env_file: ${WORKFLOWENVFILE}
     volumes:
@@ -41,6 +45,8 @@ services:
     - "smtpserver"
 
   nocodedb:
+    ports:
+      - 42000:8080
     image: nocodb/nocodb:latest
     env_file: ${TABLESENVFILE}
     restart: always
